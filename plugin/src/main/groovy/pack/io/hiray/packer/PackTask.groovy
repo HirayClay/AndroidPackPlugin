@@ -19,32 +19,45 @@ class PackTask extends DefaultTask {
     @Input
     PackExt ext
 
+    List<File> tempChannelFiles
+
     @TaskAction
     public void pack() {
         long startTimeStamp = System.currentTimeMillis()
         File apkFile = variant.outputs[0].outputFile
 
-        ZipFile zFile = new ZipFile(apkFile.absolutePath);
         List<String> channels = ext.channels
-        File channelFile = new File(apkFile.getParent() + File.separator + "channel_official")
-        if (!channelFile.exists())
-            channelFile.createNewFile()
+        tempChannelFiles = new ArrayList<>(channels.size())
         for (String ch : channels) {
             String copiedApkPath = copyChannelApk(ch, apkFile)
-            writeChannelToApk(ch, new File(copiedApkPath))
+            File cf = createChannelFile(apkFile, ch)
+            if (ext.clearChannelFile)
+                tempChannelFiles.add(cf)
+            writeChannelToApk(cf, new File(copiedApkPath))
         }
 
+        clearChannelFile(ext.clearChannelFile)
         long dur = System.currentTimeMillis() - startTimeStamp
         if (ext.logEnable)
-            log("the pack task consume time: ${dur / 1000} seconds")
+            log("the pack task consume time: ${dur / 1000} seconds in ${channels.size()} channel")
+    }
+
+    def clearChannelFile(boolean b) {
+        if (b & tempChannelFiles != null)
+            tempChannelFiles.each { f -> f.delete() }
     }
 
 
-    def writeChannelToApk(String channelName, File apkFile) {
-        ZipFile zFile = new ZipFile(apkFile);
-        File channelFile = new File(apkFile.getParent() + File.separator + "channel_${channelName}")
+    def createChannelFile(File root, String channel) {
+        File channelFile = new File(root.getParent() + File.separator + "channel_${channel}")
         if (!channelFile.exists())
             channelFile.createNewFile()
+        channelFile
+    }
+
+
+    def writeChannelToApk(File channelFile, File apkFile) {
+        ZipFile zFile = new ZipFile(apkFile);
 
         try {
             zFile.setFileNameCharset("UTF-8");
@@ -60,7 +73,7 @@ class PackTask extends DefaultTask {
     }
 
 
-    def copyChannelApk(String channelName, File srcApk) {
+    static def copyChannelApk(String channelName, File srcApk) {
         File destApk = new File(srcApk.getParent() + File.separator + "apk-${channelName}.apk")
         srcApk.withInputStream { is ->
             def buf = new byte[1024 * 1024]

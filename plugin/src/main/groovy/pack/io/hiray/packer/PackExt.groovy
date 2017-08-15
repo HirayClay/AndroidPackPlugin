@@ -6,6 +6,8 @@ class PackExt {
 
     def logEnable = false
 
+    def clearChannelFile = false
+
     def setChannels(List<String> ch) {
         channels = ch
     }
