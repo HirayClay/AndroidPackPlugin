@@ -4,7 +4,7 @@ package pack.io.hiray.packer
 class PackExt {
     def channels = []
 
-    def enable = false
+    def logEnable = false
 
     def setChannels(List<String> ch) {
         channels = ch
@@ -14,11 +14,11 @@ class PackExt {
         return channels
     }
 
-    def setEnable(boolean b) {
-        enable = b
+    def setLogEnable(boolean b) {
+        logEnable = b
     }
 
-    def getEnable() {
-        enable
+    def getLogEnable() {
+        logEnable
     }
 }

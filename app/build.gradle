@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'pack.io'
+//apply plugin: 'pack.io'
 
 android {
     compileSdkVersion 26
@@ -39,10 +39,10 @@ android {
         }
     }
 }
-pack {
-    channels = ["ele", "meizu", "huawei"]
-    enable true
-}
+//pack {
+//    channels = ["ele", "meizu", "huawei"]
+//    logEnable true
+//}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])

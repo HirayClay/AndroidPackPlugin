@@ -21,6 +21,7 @@ class PackTask extends DefaultTask {
 
     @TaskAction
     public void pack() {
+        long startTimeStamp = System.currentTimeMillis()
         File apkFile = variant.outputs[0].outputFile
 
         ZipFile zFile = new ZipFile(apkFile.absolutePath);
@@ -32,6 +33,10 @@ class PackTask extends DefaultTask {
             String copiedApkPath = copyChannelApk(ch, apkFile)
             writeChannelToApk(ch, new File(copiedApkPath))
         }
+
+        long dur = System.currentTimeMillis() - startTimeStamp
+        if (ext.logEnable)
+            log("the pack task consume time: ${dur / 1000} seconds")
     }
 
 
@@ -40,18 +45,14 @@ class PackTask extends DefaultTask {
         File channelFile = new File(apkFile.getParent() + File.separator + "channel_${channelName}")
         if (!channelFile.exists())
             channelFile.createNewFile()
-        log("zipFile:" + zFile.isValidZipFile())
 
-        if (zFile.isValidZipFile())
-            log("zipFileSizeBeforeWriteChannel:${zFile.file.size()}")
         try {
             zFile.setFileNameCharset("UTF-8");
-
             ZipParameters zipParameters = new ZipParameters();
             zipParameters.setRootFolderInZip("META-INF");
             zFile.addFile(channelFile, zipParameters);
-            log("zipFileSizeAfterWriteChannel:${zFile.file.size()}")
-            log("task done")
+            if (ext.logEnable)
+                log("zipFileSizeAfterWriteChannel:${zFile.file.size()}")
         } catch (ZipException e) {
             e.printStackTrace();
             print("Pack Failed :$e.getMessage()")
