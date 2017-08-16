@@ -20,4 +20,4 @@ pack {
 }
 ```
 and rebuid,in the gradle task list ,will add a task named "packTask",if you omit it ,the defautl taskName is "apkPack"
-<img width="280" height=“512” src="https://github.com/HirayClay/AndroidPackPlugin/raw/master/static/task-shoot.gif"></img>
+<img width="280" height=“60” src="https://github.com/HirayClay/AndroidPackPlugin/raw/master/static/task-shoot.png"></img>
