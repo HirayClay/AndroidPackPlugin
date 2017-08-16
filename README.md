@@ -9,3 +9,15 @@ finally i realise it is a good chance to write my own gradle plugin
 
 
 # Usage
+config the plugin in your main module buid.gradle file
+
+```
+pack {
+    channels = ["ele", "meizu", "huawei","xiaomi","oneplus"]
+    logEnable true
+    clearChannelFile true
+    taskName "packTask"
+}
+```
+and rebuid,in the gradle task list ,will add a task named "packTask",if you omit it ,the defautl taskName is "apkPack"
+<img width="280" height=“512” src="https://github.com/HirayClay/AndroidPackPlugin/raw/master/static/task-shoot.gif"></img>
