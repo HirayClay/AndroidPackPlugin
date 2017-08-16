@@ -26,3 +26,13 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+
+task read {
+    project(':demo').afterEvaluate { project ->
+        def ext = project.extensions.findByName("packConfig")
+        ext.all{
+            println it.name +"---"+it.description
+        }
+    }
+}
