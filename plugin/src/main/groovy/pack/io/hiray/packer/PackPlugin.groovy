@@ -21,17 +21,16 @@ public class PackPlugin implements Plugin<Project> {
             throw new IllegalStateException("'com.android.application' plugin is required")
 
 
-        project.extensions.create("pack", PackExt)
-
+        def packExt = project.extensions.create("pack", PackExt)
 
 //        variant vt
 //        dependsOn vt.assemble
         project.afterEvaluate {
             project.android.applicationVariants.each { BaseVariant vt ->
-                def task = project.tasks.findByName("apk-${vt.name}")
+                def task = project.tasks.findByName(packExt.taskName)
                 if (task == null)
-                    project.tasks.create("apk-${vt.name}", PackTask.class, {
-                        tk->
+                    project.tasks.create(packExt.taskName, PackTask.class, {
+                        tk ->
                             tk.setVariant(vt)
                             tk.setExt(project.pack)
                             tk.dependsOn vt.assemble

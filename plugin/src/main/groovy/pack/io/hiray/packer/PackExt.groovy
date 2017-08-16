@@ -8,6 +8,8 @@ class PackExt {
 
     def clearChannelFile = false
 
+    def taskName = "apkPack"
+
     def setChannels(List<String> ch) {
         channels = ch
     }
@@ -22,5 +24,13 @@ class PackExt {
 
     def getLogEnable() {
         logEnable
+    }
+
+    def getTaskName() {
+        return taskName
+    }
+
+    void setTaskName(taskName) {
+        this.taskName = taskName
     }
 }
