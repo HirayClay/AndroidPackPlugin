@@ -23,4 +23,5 @@ and rebuid,in the gradle task list ,will add a task named "packTask",if you omit
 <img width="280" height=“60” src="https://github.com/HirayClay/AndroidPackPlugin/raw/master/static/task-shoot.png"></img>
 
 just click the task and seconds later,all the apks are generated
+
 <img width="250" height=“160” src="https://github.com/HirayClay/AndroidPackPlugin/raw/master/static/variants.png"></img>
