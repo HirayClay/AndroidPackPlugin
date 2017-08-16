@@ -1,7 +1,6 @@
 package pack.io.hiray.packer
 
 import com.android.build.gradle.api.BaseVariant
-import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -24,18 +23,9 @@ public class PackPlugin implements Plugin<Project> {
 
         def packExt = project.extensions.create("pack", PackExt)
 
-        NamedDomainObjectContainer<Element> packConfig = project.container(Element)
-        project.extensions.add('packConfig', packConfig)
-
 //        variant vt
 //        dependsOn vt.assemble
         project.afterEvaluate {
-            project.tasks.create("readConfig", ReadPackConfigTask.class, {
-                task ->
-                    task.config = project.extensions.findByName("packConfig")
-            })
-
-
             project.android.applicationVariants.each { BaseVariant vt ->
                 def task = project.tasks.findByName(packExt.taskName)
                 if (task == null)

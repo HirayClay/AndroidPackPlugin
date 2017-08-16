@@ -33,28 +33,16 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            minifyEnabled = false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
         }
     }
 }
 pack {
-    channels = ["ele", "meizu", "huawei", "xiaomi", "oneplus"]
+    channels = ["ele", "meizu", "huawei","xiaomi","oneplus"]
     logEnable true
     clearChannelFile true
-}
-
-packConfig {
-    developer {
-        name  "AAA"
-        description  "HAHA"
-    }
-
-    mina {
-        name = "BBB"
-        description = "EHIEHI"
-    }
 }
 
 dependencies {
