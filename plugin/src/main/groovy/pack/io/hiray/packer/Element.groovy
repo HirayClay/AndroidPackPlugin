@@ -29,8 +29,8 @@ public class Element {
     }
 
     /**
-     * if you want to omit the "=" in the property assignment,
-     * you need to write code below
+     * if you want to omit the "=" for the property assignment in build.gradle file,
+     * you need to write code below for each property
      */
 
     def name(String name) {

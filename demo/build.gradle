@@ -47,13 +47,13 @@ pack {
 
 packConfig {
     developer {
-        name  "AAA"
-        description  "HAHA"
+        name  "name:developer"
+        description  "i am developer"
     }
 
     mina {
-        name = "BBB"
-        description = "EHIEHI"
+        name = "name:mina"
+        description = "i am mina"
     }
 }
 
