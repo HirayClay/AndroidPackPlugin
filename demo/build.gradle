@@ -1,6 +1,9 @@
 apply plugin: 'com.android.application'
-apply plugin: 'pack.io'
-
+//try another method to add plugin
+apply {
+    obj->
+        obj.plugin("pack.io")
+}
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
