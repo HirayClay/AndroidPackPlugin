@@ -1,3 +1,5 @@
+import java.lang.reflect.Field
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
@@ -15,25 +17,19 @@ buildscript {
     }
 }
 
-//tasks.create("DDDD", type: org.gradle.api.tasks.Delete, { task ->
-//    delete "file://${rootProject.projectDir}/tmp.txt"
-//})
-
-task delete(type: Delete) {
-    delete "file://${rootProject.projectDir}/tmp.txt"
-}
-
 allprojects {
-    repositories {
-        jcenter()
-    }
+    project ->
+        println "projectName:" + project.name
+        repositories {
+            jcenter()
+        }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-
+//extension
 task read {
     project(':demo').afterEvaluate { project ->
         def ext = project.extensions.findByName("packConfig")
@@ -43,6 +39,7 @@ task read {
     }
 }
 
+//convention
 project.afterEvaluate({
     project.convention.add("scissor", new Scissor())
     tasks.create("getScissor", {
@@ -51,6 +48,24 @@ project.afterEvaluate({
     })
 })
 
+//extra
+project.afterEvaluate({
+    project ->
+        project.ext.prop = "Alice"
+
+        tasks.create("readExtra", {
+            println project.ext.prop
+        })
+})
+
+task readGradle {
+    def g = project.gradle
+    println "gradle-version:" + g.gradleVersion + "\n" +
+            "gradle-dir " + g.gradleHomeDir.absolutePath
+}
+task deleteAfterReadGradleInfo(type: Delete, dependsOn: 'readGradle') {
+    delete "file://${rootProject.projectDir}/tmp.txt"
+}
 
 class Scissor {
 
@@ -63,3 +78,38 @@ class Scissor {
         "I am Scissor"
     }
 }
+//check the default transitive dependency is  true or false
+project(':demo').afterEvaluate({
+    project ->
+        project.configurations.matching {
+            config ->
+                return !config.dependencies.isEmpty()
+        }.each {
+            config ->
+                config.dependencies.each {
+                    Dependency dp ->
+                        if (dp instanceof ModuleDependency) {
+                            ModuleDependency md = dp
+                            println("Name:$dp.name  "+"TS:" + md.isTransitive())
+                        }
+                }
+        }
+//        project.configurations.all {
+//            resolutionStrategy.dependencySubstitution.all { DependencySubstitution dependency ->
+//                if (dependency.requested.displayName.contains("espresso-core")) {
+//                    println "DependencyClassName " + dependency.class.simpleName + "${dependency.requested instanceof ModuleDependency}"
+//                    Class clazz = dependency.requested.class
+//
+//                    Field[] fs = clazz.fields
+//                    println "LEN:"+fs.length
+//                    for (int i = 0; i < fs.length; i++) {
+//
+//                        print(fs[0].name)
+//
+//                    }
+////                    ModuleDependency dp = dependency.requested
+////                    prinln "${dp.name}+ Transitive:$dp.isTransitive()"
+////                }
+//            }
+//        }
+})
