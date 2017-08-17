@@ -1,5 +1,4 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     repositories {
         jcenter()
@@ -16,11 +15,18 @@ buildscript {
     }
 }
 
+//tasks.create("DDDD", type: org.gradle.api.tasks.Delete, { task ->
+//    delete "file://${rootProject.projectDir}/tmp.txt"
+//})
+
+task delete(type: Delete) {
+    delete "file://${rootProject.projectDir}/tmp.txt"
+}
+
 allprojects {
     repositories {
         jcenter()
     }
-
 }
 
 task clean(type: Delete) {
@@ -31,8 +37,29 @@ task clean(type: Delete) {
 task read {
     project(':demo').afterEvaluate { project ->
         def ext = project.extensions.findByName("packConfig")
-        ext.all{
-            println it.name +"---"+it.description
+        ext.all {
+            println it.name + "---" + it.description
         }
+    }
+}
+
+project.afterEvaluate({
+    project.convention.add("scissor", new Scissor())
+    tasks.create("getScissor", {
+        Scissor scissor = project.convention.getByName("scissor")
+        scissor.cut("ribbon")
+    })
+})
+
+
+class Scissor {
+
+    def cut(String bar) {
+        println "cut a $bar"
+    }
+
+    @Override
+    String toString() {
+        "I am Scissor"
     }
 }
