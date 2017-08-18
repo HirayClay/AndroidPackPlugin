@@ -12,7 +12,7 @@ def gitUrl = 'git@github.com:HirayClay/AndroidPackPlugin.git'
 group = GROUP_ID
 archivesBaseName = 'core'
 
-version = "0.9.0"
+version = "1.0.0"
 
 
 install {
@@ -22,7 +22,7 @@ install {
             artifactId = ARTIFACT_ID
 
             project {
-                packaging 'aar'
+                packaging 'jar'
                 // Add your description here
                 name 'A easy gradle plugin help packing various channel apk for android'
                 url siteUrl
@@ -52,11 +52,11 @@ install {
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.allGroovy
-    classifier = 'sources'
+    classifier = ''
 }
 
 task javadocJar(type: Jar, dependsOn: groovydoc) {
-    classifier = 'javadoc'
+    classifier = ''
     from javadoc.destinationDir
 }
 artifacts {

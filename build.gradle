@@ -1,5 +1,4 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     repositories {
         jcenter()
@@ -8,6 +7,8 @@ buildscript {
         }
     }
     dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'pack.io.hiray.packer:plugin:1.0.0'
 
@@ -17,12 +18,112 @@ buildscript {
 }
 
 allprojects {
+    println "projectName:" + it.name
     repositories {
         jcenter()
     }
-
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+//extension
+task read {
+    project(':demo').afterEvaluate { project ->
+        def ext = project.extensions.findByName("packConfig")
+        ext.all {
+            println it.name + "---" + it.description
+        }
+    }
+}
+
+//convention
+project.afterEvaluate({
+    project.convention.add("scissor", new Scissor())
+    tasks.create("getScissor", {
+        Scissor scissor = project.convention.getByName("scissor")
+        scissor.cut("ribbon")
+    })
+})
+
+//extra
+project.afterEvaluate({
+    project ->
+        project.ext.prop = "Alice"
+
+        tasks.create("readExtra", {
+            println project.ext.prop
+        })
+})
+
+task readGradle {
+    def g = project.gradle
+    println "gradle-version:" + g.gradleVersion + "\n" +
+            "gradle-dir " + g.gradleHomeDir.absolutePath
+}
+task deleteAfterReadGradleInfo(type: Delete, dependsOn: 'readGradle') {
+    delete "file://${rootProject.projectDir}/tmp.txt"
+}
+
+class Scissor {
+
+    def cut(String bar) {
+        println "cut a $bar"
+    }
+
+    @Override
+    String toString() {
+        "I am Scissor"
+    }
+}
+//check the default transitive dependency is  true or false
+project(':demo').afterEvaluate({
+    project ->
+        project.configurations.matching {
+            config ->
+                return !config.dependencies.isEmpty()
+        }.each {
+            config ->
+                config.dependencies.each {
+                    Dependency dp ->
+                        if (dp instanceof ModuleDependency) {
+                            ModuleDependency md = dp
+                            println("Name:$dp.name  " + "TS:" + md.isTransitive())
+                        }
+                }
+        }
+
+})
+//        project.configurations.all {
+//            resolutionStrategy.dependencySubstitution.all { DependencySubstitution dependency ->
+//                if (dependency.requested.displayName.contains("espresso-core")) {
+//                    println "DependencyClassName " + dependency.class.simpleName + "${dependency.requested instanceof ModuleDependency}"
+//                    Class clazz = dependency.requested.class
+//
+//                    Field[] fs = clazz.fields
+//                    println "LEN:"+fs.length
+//                    for (int i = 0; i < fs.length; i++) {
+//
+//                        print(fs[0].name)
+//
+//                    }
+////                    ModuleDependency dp = dependency.requested
+////                    prinln "${dp.name}+ Transitive:$dp.isTransitive()"
+////                }
+//            }
+//        }
+
+//com.android.support:cardview-v7:26.0.0-alpha1
+allprojects {
+    project ->
+        project.configurations.all{
+            resolutionStrategy.getDependencySubstitution().all{
+                DependencySubstitution dependency ->
+                    println "DS:"+dependency.requested.displayName
+                    if (dependency.requested.displayName.contains("recyclerview")){
+                        dependency.useTarget("com.android.support:cardview-v7:26.0.0-alpha1")
+                    }
+            }
+        }
 }
