@@ -13,7 +13,6 @@ repositories {
 }
 group = 'pack.io.hiray.packer'
 version = '1.0.0'
-
 //upload to local repo("../repo" directory)
 //uploadArchives {
 //    repositories {
