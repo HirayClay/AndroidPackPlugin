@@ -1,5 +1,5 @@
 apply plugin: 'groovy'
-//apply plugin: 'maven'
+apply plugin: 'maven'
 dependencies {
     compile gradleApi()
     compile localGroovy()
@@ -14,11 +14,11 @@ repositories {
 group = 'pack.io.hiray.packer'
 version = '1.0.0'
 //upload to local repo("../repo" directory)
-//uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//            repository(url: uri('../repo'))
-//        }
-//    }
-//}
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('../plugins'))
+        }
+    }
+}
 apply from: "../upload.gradle"

@@ -1,10 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
-        jcenter()
         maven {
-            url uri('./repo')
+            url uri('./plugins')
         }
+        jcenter()
     }
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
@@ -21,6 +21,7 @@ allprojects {
     println "projectName:" + it.name
     repositories {
         jcenter()
+
     }
 }
 
@@ -32,9 +33,10 @@ task clean(type: Delete) {
 task read {
     project(':demo').afterEvaluate { project ->
         def ext = project.extensions.findByName("packConfig")
-        ext.all {
-            println it.name + "---" + it.description
-        }
+        if (ext != null)
+            ext.all {
+                println it.name + "---" + it.description
+            }
     }
 }
 
@@ -117,11 +119,11 @@ project(':demo').afterEvaluate({
 //com.android.support:cardview-v7:26.0.0-alpha1
 allprojects {
     project ->
-        project.configurations.all{
-            resolutionStrategy.getDependencySubstitution().all{
+        project.configurations.all {
+            resolutionStrategy.getDependencySubstitution().all {
                 DependencySubstitution dependency ->
-                    println "DS:"+dependency.requested.displayName
-                    if (dependency.requested.displayName.contains("recyclerview")){
+                    println "DS:" + dependency.requested.displayName
+                    if (dependency.requested.displayName.contains("recyclerview")) {
                         dependency.useTarget("com.android.support:cardview-v7:26.0.0-alpha1")
                     }
             }
