@@ -12,6 +12,8 @@ finally i realise it is a good chance to write my own gradle plugin
 config the plugin in your main module buid.gradle file
 
 ```
+apply plugin:'android.packer'
+
 pack {
     channels = ["ele", "meizu", "huawei","xiaomi","oneplus"]
     logEnable true
