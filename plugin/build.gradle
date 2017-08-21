@@ -14,11 +14,11 @@ repositories {
 group = 'pack.io.hiray.packer'
 version = '1.0.0'
 //upload to local repo("../repo" directory)
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: uri('../plugins'))
-        }
-    }
-}
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: uri('../plugins'))
+//        }
+//    }
+//}
 apply from: "../upload.gradle"
