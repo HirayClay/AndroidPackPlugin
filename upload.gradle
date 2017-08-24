@@ -2,14 +2,14 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven-publish'
 
 def GROUP_ID = 'pack.io.hiray.packer'
-def ARTIFACT_ID = 'plugin'
+def ARTIFACT_ID = 'core'
 
 
 def siteUrl = 'https://github.com/HirayClay/AndroidPackPlugin'
 def gitUrl = 'git@github.com:HirayClay/AndroidPackPlugin.git'
 
 group = GROUP_ID
-archivesBaseName = 'plugin'
+archivesBaseName = 'core'
 
 version = "1.0.0"
 
@@ -51,11 +51,11 @@ install {
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
-    classifier = ''
+    classifier = 'sourcesJar'
 }
 
 task javadocJar(type: Jar, dependsOn: groovydoc) {
-    classifier = ''
+    classifier = 'javadocJar'
     from javadoc.destinationDir
 }
 artifacts {

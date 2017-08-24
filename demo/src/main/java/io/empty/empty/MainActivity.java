@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void readChannel(View view) {
+    public String readChannel(View view) {
         ApplicationInfo appinfo = getApplicationInfo();
         String sourceDir = appinfo.sourceDir;
         String ret = "";
@@ -54,8 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        return channel;
 
-        Toast.makeText(this, channel, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, channel, Toast.LENGTH_SHORT).show();
 
     }
 }
