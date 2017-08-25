@@ -10,6 +10,9 @@ class PackExt {
 
     def taskName = "apkPack"
 
+    def format=""
+
+    def prefix = "apk-"
     def setChannels(List<String> ch) {
         channels = ch
     }
@@ -32,5 +35,21 @@ class PackExt {
 
     void setTaskName(taskName) {
         this.taskName = taskName
+    }
+
+    def getFormat() {
+        return format
+    }
+
+    void setFormat(String format) {
+        this.format = format
+    }
+
+    def getPrefix() {
+        return prefix
+    }
+
+    void setPrefix(prefix) {
+        this.prefix = prefix
     }
 }

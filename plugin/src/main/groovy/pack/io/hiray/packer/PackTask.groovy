@@ -1,6 +1,7 @@
 package pack.io.hiray.packer
 
 import com.android.build.gradle.api.BaseVariant
+import groovy.text.SimpleTemplateEngine
 import net.lingala.zip4j.core.ZipFile
 import net.lingala.zip4j.exception.ZipException
 import net.lingala.zip4j.model.ZipParameters
@@ -20,6 +21,8 @@ class PackTask extends DefaultTask {
     PackExt ext
 
     List<File> tempChannelFiles
+
+    SimpleTemplateEngine formatEngine
 
     @TaskAction
     public void pack() {
@@ -74,7 +77,17 @@ class PackTask extends DefaultTask {
 
 
     static def copyChannelApk(String channelName, File srcApk) {
-        File destApk = new File(srcApk.getParent() + File.separator + "apk-${channelName}.apk")
+        if (!formatEngine)
+            formatEngine = new SimpleTemplateEngine()
+        String channelFormat = ext.format
+        def binding = [
+                "prefix"     : ext.prefix,
+                "versionName": variant.mergedFlavor.versionCode,
+                "channelName": channelName,
+                "buildType"  : variant.buildType.name
+        ]
+        String finalName = formatEngine.createTemplate(channelFormat).make(binding)
+        File destApk = new File(srcApk.getParent() + File.separator + "${finalName}.apk")
         srcApk.withInputStream { is ->
             def buf = new byte[1024 * 1024]
             int len = -1
@@ -89,7 +102,6 @@ class PackTask extends DefaultTask {
         destApk
     }
 
-    def
 
     public void log(String s) {
         logger.error(marker, s)
