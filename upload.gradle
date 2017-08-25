@@ -11,7 +11,7 @@ def gitUrl = 'git@github.com:HirayClay/AndroidPackPlugin.git'
 group = GROUP_ID
 archivesBaseName = 'core'
 
-version = "1.0.0"
+version = "1.1.0"
 
 
 install {

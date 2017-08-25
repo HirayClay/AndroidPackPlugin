@@ -1,12 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
-        maven {
-            url uri('./plugins')
-        }
         jcenter()
     }
     dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'pack.io.hiray.packer:core:1.1.0'
 
