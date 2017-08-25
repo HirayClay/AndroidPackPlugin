@@ -76,13 +76,13 @@ class PackTask extends DefaultTask {
     }
 
 
-    static def copyChannelApk(String channelName, File srcApk) {
+     def copyChannelApk(String channelName, File srcApk) {
         if (!formatEngine)
             formatEngine = new SimpleTemplateEngine()
         String channelFormat = ext.format
         def binding = [
                 "prefix"     : ext.prefix,
-                "versionName": variant.mergedFlavor.versionCode,
+                "versionName": variant.mergedFlavor.versionName,
                 "channelName": channelName,
                 "buildType"  : variant.buildType.name
         ]

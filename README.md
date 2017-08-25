@@ -26,12 +26,16 @@ config the plugin in your main module buid.gradle file
 apply plugin:'android.packer'
 
 pack {
-    channels = ["ele", "meizu", "huawei","xiaomi","oneplus"]
+    channels = ["ele", "meizu", "huawei", "xiaomi", "oneplus"]
     logEnable true
     clearChannelFile true
-    taskName "packTask"
+    prefix "apkFile"
+    format '${prefix}-${versionName}-${channelName}-${buildType}'
 }
 ```
+if the version = 1.0,channel is "google" buildType is "Debug"
+the generate apk name will be "apkFile-1.0-google-Debug.apk"
+
 read out the channel like this:
 ```
     public String readChannel(Context context) {
