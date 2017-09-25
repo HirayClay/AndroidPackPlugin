@@ -29,7 +29,7 @@ pack {
     channels = ["ele", "meizu", "huawei","xiaomi","oneplus"]
     logEnable true
     clearChannelFile true
-    taskName "packTask"
+    taskName "packTask"//default "apkPack"
 }
 ```
 read out the channel like this:
