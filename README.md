@@ -9,7 +9,7 @@ finally i realise it is a good chance to write my own gradle plugin
 
 
 # Usage
-add the classpath in your project build.gradle file like below
+add the classpath in your project build.gradle file like below(i am sorry, attributing to the bad network,the link is bad,i will claim it sooner)
 ```
     buildscript {
         repositories {
