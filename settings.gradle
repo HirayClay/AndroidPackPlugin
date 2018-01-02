@@ -1,1 +1,1 @@
-include ':demo', ':plugin'
+include ':demo', ':core'

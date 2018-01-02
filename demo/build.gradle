@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android.packer'
+//apply plugin: 'android.packer'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "io.empty.empty"
         minSdkVersion 19
@@ -39,6 +39,9 @@ android {
         }
     }
 
+    lintOptions{
+        abortOnError false
+    }
 
     productFlavors{
         xiaoMi{
@@ -53,20 +56,19 @@ android {
 
 
 
-pack {
-    channels = ["ele", "meizu", "huawei", "xiaomi", "oneplus"]
-    logEnable true
-    clearChannelFile true
-    prefix "apkFile"
-    format '${prefix}-${versionName}-${channelName}-${buildType}'
-}
+//pack {
+//    channels = ["ele", "meizu", "huawei", "xiaomi", "oneplus"]
+//    logEnable true
+//    clearChannelFile true
+////    prefix "apkFile"
+////    format '${prefix}-${versionName}-${channelName}-${buildType}'
+//}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.1'
+    compile 'com.android.support:appcompat-v7:26.1.0'
     testCompile 'junit:junit:4.12'
 }

@@ -1,9 +1,8 @@
 package io.empty.empty;
 
 import android.content.pm.ApplicationInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public String readChannel(View view) {
+    public void readChannel(View view) {
         ApplicationInfo appinfo = getApplicationInfo();
         String sourceDir = appinfo.sourceDir;
         String ret = "";
@@ -49,14 +48,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         String[] split = ret.split("_");
-        if (split != null && split.length >= 2) {
+        if (split.length >= 2) {
             channel = ret.substring(split[0].length() + 1);
 
         }
 
-        return channel;
-
-//        Toast.makeText(this, channel, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, channel, Toast.LENGTH_SHORT).show();
 
     }
 }
